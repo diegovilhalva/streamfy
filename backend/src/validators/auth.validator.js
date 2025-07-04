@@ -23,3 +23,22 @@ export const loginSchema = Joi.object({
             "string.empty": "A senha é obrigatória"
         })
 })
+
+
+export const onBoardingSchema = Joi.object({
+    fullName: Joi.string().required().messages({
+        "string.empty": "O nome completo é obrigatório"
+    }),
+    bio: Joi.string().max(500).allow("", null).messages({
+        "string.max": "A biografia deve ter no máximo 500 caracteres"
+    }),
+    nativeLanguage: Joi.string().allow("", null).messages({
+        "string.base": "A língua nativa deve ser um texto"
+    }),
+    learningLanguage: Joi.string().allow("", null).messages({
+        "string.base": "A língua que está aprendendo deve ser um texto"
+    }),
+    location: Joi.string().allow("", null).messages({
+        "string.base": "A localização deve ser um texto"
+    }),
+})

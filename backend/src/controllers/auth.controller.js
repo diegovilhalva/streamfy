@@ -1,7 +1,8 @@
 
 import User from "../models/User.js"
 import jwt from "jsonwebtoken"
-import { loginSchema, signUpSchema } from "../validators/auth.validator.js"
+import { loginSchema, onBoardingSchema, signUpSchema } from "../validators/auth.validator.js"
+import { upsertStreamUser } from "../lib/stream.js"
 
 
 
@@ -31,6 +32,17 @@ export const signUp = async (req, res) => {
             password,
             profilePic: randomAvatar,
         })
+
+        try {
+            await upsertStreamUser({
+                id: newUser._id.toString(),
+                name: newUser.fullName,
+                image: newUser.profilePic || ""
+            })
+            console.log(`Stream usuário criado para ${newUser.fullName}`);
+        } catch (error) {
+            console.log("Erro ao criar usuário stream:", error);
+        }
 
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
             expiresIn: "7d",
@@ -101,6 +113,53 @@ export const logout = async (req, res) => {
         return res.status(200).json({ success: true, message: "Logout realizado com sucesso" })
     } catch (error) {
         console.error("Erro ao fazer logout:", error)
+        return res.status(500).json({ success: false, message: "Erro interno do servidor" })
+    }
+}
+
+
+export const onBoarding = async (req, res) => {
+    try {
+        const { error } = onBoardingSchema.validate(req.body)
+        if (error) {
+            return res.status(400).json({ success: false, message: error.details[0].message })
+        }
+
+        const userId = req.user._id
+        const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+                fullName,
+                bio,
+                nativeLanguage,
+                learningLanguage,
+                location,
+                isOnboarded: true,
+            },
+            { new: true }
+        )
+
+        if (!updatedUser) {
+            return res.status(404).json({ success: false, message: "Usuário não encontrado" })
+        }
+
+        try {
+            await upsertStreamUser({
+                id: updatedUser._id.toString(),
+                name: updatedUser.fullName,
+                image: updatedUser.profilePic || "",
+            })
+            console.log(`Usuário atualizado no Stream: ${updatedUser.fullName}`)
+        } catch (streamError) {
+            console.error("Erro ao atualizar usuário no Stream:", streamError.message)
+        }
+
+        res.status(200).json({ success: true, user: updatedUser })
+
+    } catch (error) {
+        console.error("Erro no onboarding:", error)
         return res.status(500).json({ success: false, message: "Erro interno do servidor" })
     }
 }

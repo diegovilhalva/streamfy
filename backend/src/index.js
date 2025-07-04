@@ -1,9 +1,11 @@
 import express from "express"
 import cookieParser from "cookie-parser"
 import cors from "cors"
-import doteenv from "dotenv"
+import dotenv from "dotenv"
 import authRoutes from "./routes/auth.route.js"
-doteenv.config()
+import connectDB from "../config/db.js"
+connectDB()
+dotenv.config()
 const PORT = process.env.PORT || 4000
 
 

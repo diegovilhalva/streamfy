@@ -18,12 +18,17 @@ export const upsertStreamUser = async (userData) => {
         await streamClient.upsertUsers([userData])
         return userData
     } catch (error) {
-        console.log("erro ao criar usuário no Stream",error)
+        console.log("erro ao criar usuário no Stream", error)
     }
 }
 
 
 export const generateStreamToken = (userId) => {
-    // Todo
+    try {
+        const userIdStr = userId.toString();
+        return streamClient.createToken(userIdStr)
+    } catch (error) {
+         console.error("Erro ao gerar Stream token:", error)
+    }
 }
 

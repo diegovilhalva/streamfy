@@ -8,5 +8,8 @@ authRoutes.post("/signup",signUp)
 authRoutes.post("/login",login)
 authRoutes.post("/logout",logout)
 authRoutes.post("/onboarding",protectRoute,onBoarding)
+authRoutes.get("/me", protectRoute, (req, res) => {
+  res.status(200).json({ success: true, user: req.user });
+})
 
 export default authRoutes

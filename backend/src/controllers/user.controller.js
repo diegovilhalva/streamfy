@@ -1,4 +1,4 @@
-import User from "../models/User"
+import User from "../models/User.js"
 import FriendRequest from "../models/FriendRequest.js"
 
 export const getRecommendedUsers = async (req, res) => {

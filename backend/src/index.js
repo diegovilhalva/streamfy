@@ -14,21 +14,22 @@ const PORT = process.env.PORT || 4000
 const app = express()
 
 app.use(express.json())
+
 app.use(cookieParser())
-app.use(cors())
+app.use(cors({ origin: "http://localhost:5173", credentials: true }))
 
 
 
 
-app.get("/",(req,res) => {
+app.get("/", (req, res) => {
     res.send("Servidor ok")
 })
 
-app.use("/api/auth",authRoutes)
-app.use("/api/user",userRoutes)
-app.use("/api/chat",chatRoutes)
+app.use("/api/auth", authRoutes)
+app.use("/api/user", userRoutes)
+app.use("/api/chat", chatRoutes)
 
-app.listen(PORT,() => {
+app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`)
 })
 

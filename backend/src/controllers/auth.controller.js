@@ -126,7 +126,7 @@ export const onBoarding = async (req, res) => {
         }
 
         const userId = req.user._id
-        const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body
+        const { fullName, bio, nativeLanguage, learningLanguage, location,profilePic } = req.body
 
         const updatedUser = await User.findByIdAndUpdate(
             userId,
@@ -136,6 +136,7 @@ export const onBoarding = async (req, res) => {
                 nativeLanguage,
                 learningLanguage,
                 location,
+                profilePic,
                 isOnboarded: true,
             },
             { new: true }

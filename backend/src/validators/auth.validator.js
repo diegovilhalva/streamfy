@@ -15,13 +15,13 @@ export const signUpSchema = Joi.object({
 
 
 export const loginSchema = Joi.object({
-        email: Joi.string().email().required().messages({
-            "string.email": "Email inválido",
-            "string.empty": "O email é obrigatório"
-        }),
-        password: Joi.string().required().messages({
-            "string.empty": "A senha é obrigatória"
-        })
+    email: Joi.string().email().required().messages({
+        "string.email": "Email inválido",
+        "string.empty": "O email é obrigatório"
+    }),
+    password: Joi.string().required().messages({
+        "string.empty": "A senha é obrigatória"
+    })
 })
 
 
@@ -41,4 +41,5 @@ export const onBoardingSchema = Joi.object({
     location: Joi.string().allow("", null).messages({
         "string.base": "A localização deve ser um texto"
     }),
+    profilePic: Joi.string().uri().allow("")
 })

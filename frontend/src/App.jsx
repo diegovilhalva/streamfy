@@ -7,34 +7,28 @@ import Notifications from "./pages/Notifications"
 import Call from "./pages/Call"
 import Chat from "./pages/Chat"
 import { Toaster } from "react-hot-toast"
-import { useQuery } from "@tanstack/react-query"
-import { axiosInstance } from "./lib/axios"
+import PageLoader from "./components/PageLoader"
+import useAuthUser from "./hooks/useAuthUser"
 
 function App() {
 
-  const { data:authData,isLoading,error} = useQuery({
-    queryKey: ["authUser"],
-    queryFn: async () => {
-      const res = await axiosInstance.get("/auth/me")
-      return res.data
-    },
-    retry:false
-  })
+  const { authUser, isLoading } = useAuthUser()
 
+  const isAuthenticated = Boolean(authUser)
 
-  const authUser =  authData?.user
+  const isOnboarded = authUser?.isOnboarded
 
-
+  if (isLoading) return <PageLoader />;
   return (
     <div className="h-screen" data-theme="night">
       <Routes>
-        <Route path="/" element={ authUser ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/"/>} />
-        <Route path="/signup" element={!authUser ? <SignUp /> : <Navigate to="/" />} />
-        <Route path="/onboarding" element={authUser ? <OnBoarding /> : <Navigate to="/login" />} />
-        <Route path="/notifications" element={ authUser ?<Notifications />: <Navigate to="/login"/>} />
-        <Route path="/call" element={authUser ? <Call /> : <Navigate to="/login" />} />
-        <Route path="/chat" element={authUser  ? <Chat /> : <Navigate to="/login"/>} />
+        <Route path="/" element={isAuthenticated && isOnboarded ? (<Home />) : (<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
+        <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" />} />
+        <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />} />
+        <Route path="/onboarding" element={isAuthenticated ? <OnBoarding /> : <Navigate to="/login" />} />
+        <Route path="/notifications" element={isAuthenticated ? <Notifications /> : <Navigate to="/login" />} />
+        <Route path="/call" element={isAuthenticated ? <Call /> : <Navigate to="/login" />} />
+        <Route path="/chat" element={isAuthenticated ? <Chat /> : <Navigate to="/login" />} />
       </Routes>
       <Toaster />
     </div>

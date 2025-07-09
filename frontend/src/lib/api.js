@@ -10,6 +10,12 @@ export const login = async (loginData) => {
     return res.data
 }
 
+export const logout = async () => {
+    const res = await axiosInstance.post("/auth/logout")
+    return res.data
+}
+
+
 export const completeOnboarding = async (userData) => {
   const response = await axiosInstance.post("/auth/onboarding", userData);
   return response.data

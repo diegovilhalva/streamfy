@@ -9,10 +9,13 @@ import Chat from "./pages/Chat"
 import { Toaster } from "react-hot-toast"
 import PageLoader from "./components/PageLoader"
 import useAuthUser from "./hooks/useAuthUser"
+import Layout from "./components/Layout"
+import { useThemeStore } from "./store/useThemeStore"
 
 function App() {
 
   const { authUser, isLoading } = useAuthUser()
+  const {theme} = useThemeStore()
 
   const isAuthenticated = Boolean(authUser)
 
@@ -20,9 +23,13 @@ function App() {
 
   if (isLoading) return <PageLoader />;
   return (
-    <div className="h-screen" data-theme="night">
+    <div className="h-screen" data-theme={theme}>
       <Routes>
-        <Route path="/" element={isAuthenticated && isOnboarded ? (<Home />) : (<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
+        <Route path="/" element={isAuthenticated && isOnboarded ? (
+          <Layout showSidebar>
+            <Home />
+          </Layout>
+          ) : (<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
         <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" />} />
         <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />} />
         <Route path="/onboarding" element={isAuthenticated ? <OnBoarding /> : <Navigate to="/login" />} />

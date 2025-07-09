@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ShipWheelIcon } from "lucide-react"
 import { Link } from 'react-router'
 import useSignUp from '../hooks/useSignUp'
+import { useThemeStore } from '../store/useThemeStore'
 const SignUp = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
@@ -15,8 +16,9 @@ const SignUp = () => {
     e.preventDefault()
     signupMutation(signupData)
   }
+  const {theme} = useThemeStore()
   return (
-    <div className='h-screen flex items-center justify-center p-4 sm:p-6 md:p-8' data-theme="forest">
+    <div className='h-screen flex items-center justify-center p-4 sm:p-6 md:p-8' data-theme={theme}>
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
           <div className="mb-4 flex items-center justify-start gap-2">

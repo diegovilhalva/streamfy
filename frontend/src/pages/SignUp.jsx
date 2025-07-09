@@ -1,8 +1,7 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import { ShipWheelIcon } from "lucide-react"
 import { Link } from 'react-router'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { signup } from '../lib/api'
+import useSignUp from '../hooks/useSignUp'
 const SignUp = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
@@ -10,12 +9,7 @@ const SignUp = () => {
     password: ""
   })
 
-  const queryClient = useQueryClient()
-  const { mutate:signupMutation, isPending, error } = useMutation({
-    mutationFn: signup,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-
-  })
+  const { error, isPending, signupMutation } = useSignUp()
 
   const handleSignup = (e) => {
     e.preventDefault()
@@ -91,10 +85,10 @@ const SignUp = () => {
 
                 </div>
                 <button className="btn btn-primary w-full" type="submit">
-                   {isPending ? (<>
-                      <span className="loading loading-spinner loading-xs"></span>
-                      Carregando...
-                    </>
+                  {isPending ? (<>
+                    <span className="loading loading-spinner loading-xs"></span>
+                    Carregando...
+                  </>
                   ) : (
                     "Criar conta"
                   )}
@@ -119,7 +113,7 @@ const SignUp = () => {
             </div>
 
             <div className="text-center space-y-3 mt-6">
-              <h2 className="text-xl font-semibold">Aprenda mais com o StreamFy</h2>
+              <h1 className="text-xl font-semibold">Aprenda mais com o StreamFy</h1>
               <p className="opacity-70">
                 Pratique seus idiomas, faça amizades e melhore suas habilidades em um único lugar.
               </p>

@@ -5,10 +5,12 @@ import { CameraIcon, LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon } from '
 import { LANGUAGES } from '../constants';
 import { completeOnboarding } from '../lib/api';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 const OnBoarding = () => {
   const { authUser } = useAuthUser();
   const queryClient = useQueryClient();
+  const navigate = useNavigate()
 
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
@@ -21,9 +23,12 @@ const OnBoarding = () => {
 
   const { mutate: onboardMutation, isPending } = useMutation({
     mutationFn: completeOnboarding,
-    onSuccess: async () => {
+    onSuccess: () => {
       toast.success("Perfil atualizado com sucesso!")
-      queryClient.invalidateQueries({ queryKey: ["authUser"] })
+      queryClient.invalidateQueries({ queryKey: ["authUser"] }).then(()=> {
+         navigate("/")
+      })
+     
     },
     onError: (error) => {
       toast.error(error.response.data.message);

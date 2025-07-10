@@ -15,7 +15,7 @@ import { useThemeStore } from "./store/useThemeStore"
 function App() {
 
   const { authUser, isLoading } = useAuthUser()
-  const {theme} = useThemeStore()
+  const { theme } = useThemeStore()
 
   const isAuthenticated = Boolean(authUser)
 
@@ -29,13 +29,26 @@ function App() {
           <Layout showSidebar>
             <Home />
           </Layout>
-          ) : (<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
+        ) : (<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
         <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" />} />
         <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />} />
         <Route path="/onboarding" element={isAuthenticated ? <OnBoarding /> : <Navigate to="/login" />} />
-        <Route path="/notifications" element={isAuthenticated ? <Notifications /> : <Navigate to="/login" />} />
-        <Route path="/call" element={isAuthenticated ? <Call /> : <Navigate to="/login" />} />
-        <Route path="/chat" element={isAuthenticated ? <Chat /> : <Navigate to="/login" />} />
+        <Route path="/notifications" element={isAuthenticated && isOnboarded ? (
+          <Layout showSidebar>
+            <Notifications />
+          </Layout>) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )} />
+        <Route path="/call" element={isAuthenticated && isOnboarded ? (
+          <Layout showSidebar={false}>
+              <Call/>
+          </Layout>
+        ):(<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
+         <Route path="/chat/:id" element={isAuthenticated && isOnboarded ? (
+          <Layout showSidebar={false}>
+              <Chat/>
+          </Layout>
+        ):(<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
       </Routes>
       <Toaster />
     </div>

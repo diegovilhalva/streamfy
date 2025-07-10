@@ -42,7 +42,7 @@ const Home = () => {
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
-  console.log(outgoingRequestsIds)
+  
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto space-y-10">
@@ -139,7 +139,7 @@ const Home = () => {
                         {hasRequestBeenSent ? (
                           <>
                             <CheckCircleIcon className="size-4 mr-2" />
-                            Solicitção enviada
+                            Solicitação enviada
                           </>
                         ) : (
                           <>

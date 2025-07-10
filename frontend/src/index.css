@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* global.css */
+
+.str-chat__channel {
+  background: linear-gradient(to bottom, #f0fdf4, #dcfce7); /* tons mais leves */
+  border-radius: 0.75rem;
+}
+
+.str-chat__container {
+  height: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.str-chat__list {
+  background-color: #ffffff;
+  padding: 0.75rem;
+}
+
+.str-chat__message-input {
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.str-chat__list-notifications {
+  display: none;
+}

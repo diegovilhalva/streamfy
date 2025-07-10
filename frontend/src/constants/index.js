@@ -179,3 +179,47 @@ export const LANGUAGES = [
   "Turco",
   "Holandês",
 ];
+
+
+
+
+// constants.js
+export const LANGUAGE_NAME_TO_CODE = {
+  "inglês": "en",
+  "espanhol": "es",
+  "francês": "fr",
+  "alemão": "de",
+  "italiano": "it",
+  "português": "pt",
+  "japonês": "ja",
+  "chinês": "zh",
+  "coreano": "ko",
+  "árabe": "ar",
+  "russo": "ru",
+  "holandês": "nl",
+  "sueco": "sv",
+  "hindi": "hi",
+  "turco": "tr",
+  "polonês": "pl"
+  
+}
+
+export const LANGUAGE_TO_FLAG = {
+  en: "gb", 
+  es: "es",
+  fr: "fr",
+  de: "de",
+  it: "it",
+  pt: "br",
+  ja: "jp",
+  zh: "cn",
+  ko: "kr",
+  ar: "sa",
+  ru: "ru",
+  nl: "nl",
+  sv: "se",
+  hi: "in",
+  tr: "tr",
+  pl: "pl"
+}
+

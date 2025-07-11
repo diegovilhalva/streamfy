@@ -11,6 +11,7 @@ import PageLoader from "./components/PageLoader"
 import useAuthUser from "./hooks/useAuthUser"
 import Layout from "./components/Layout"
 import { useThemeStore } from "./store/useThemeStore"
+import Friends from "./pages/Friends"
 
 function App() {
 
@@ -39,7 +40,7 @@ function App() {
           </Layout>) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )} />
-        <Route path="/call" element={isAuthenticated && isOnboarded ? (
+        <Route path="/call/:id" element={isAuthenticated && isOnboarded ? (
           <Layout showSidebar={false}>
               <Call/>
           </Layout>
@@ -47,6 +48,11 @@ function App() {
          <Route path="/chat/:id" element={isAuthenticated && isOnboarded ? (
           <Layout showSidebar={false}>
               <Chat/>
+          </Layout>
+        ):(<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
+        <Route path="/friends" element={isAuthenticated && isOnboarded ? (
+          <Layout showSidebar>
+              <Friends />
           </Layout>
         ):(<Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />)} />
       </Routes>

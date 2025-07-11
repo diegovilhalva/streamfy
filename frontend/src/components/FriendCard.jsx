@@ -1,6 +1,7 @@
 import React from 'react'
 import { LANGUAGE_TO_FLAG, LANGUAGE_NAME_TO_CODE } from '../constants';
 import { Link } from 'react-router';
+import { capitialize } from '../lib/utils';
 const FriendCard = ({ friend }) => {
     return (
         <div className="card bg-base-200 hover:shadow-md transition-shadow">
@@ -14,11 +15,11 @@ const FriendCard = ({ friend }) => {
                 <div className="flex flex-wrap gap-1.5 mb-3">
                     <span className="badge badge-secondary text-xs">
                         {getLanguageFlag(friend.nativeLanguage)}
-                        Nativo: {friend.nativeLanguage}
+                        Nativo: {capitialize(friend.nativeLanguage)}
                     </span>
                     <span className="badge badge-outline text-xs">
                         {getLanguageFlag(friend.learningLanguage)}
-                        Estuda: {friend.learningLanguage}
+                        Estuda: {capitialize(friend.learningLanguage)}
                     </span>
                 </div>
                 <Link to={`/chat/${friend._id}`} className="btn btn-outline w-full">

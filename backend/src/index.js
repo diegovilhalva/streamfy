@@ -29,9 +29,7 @@ if (process.env.NODE_ENV === "production") {
 
 
 
-app.get("/", (req, res) => {
-    res.send("Servidor ok")
-})
+
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
